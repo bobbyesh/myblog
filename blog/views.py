@@ -6,6 +6,13 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()[:5]
-        print(context)
+        posts = []
+        for p in Post.objects.all()[:5]:
+            post = dict()
+            post['title'] = p.title
+            post['preview'] = p.body[:100] + '[...]'
+            post['created'] = p.created
+            posts.append(post)
+
+        context['posts'] = posts
         return context
